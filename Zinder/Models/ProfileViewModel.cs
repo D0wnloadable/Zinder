@@ -16,5 +16,7 @@ namespace Zinder.Models
         public DateTime? DateOfBirth { get; set; }
 
         public string Description { get; set; }
+
+        public bool Exists { get; set; }
     }
 }

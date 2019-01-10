@@ -18,6 +18,8 @@ namespace Zinder.Models
 
         public string Description { get; set; }
 
+        public bool Exists { get; set; }
+
         //  public string ImageName { get; set; }
 
     }

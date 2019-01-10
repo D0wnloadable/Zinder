@@ -16,12 +16,13 @@ namespace Zinder.Controllers
             var ctx = new ProfileDbContext();
             var currentUser = User.Identity.GetUserId();
             var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUser);
-            //var exists = false;
 
-            //if (currentUserProfile != null)
-            //{
-            //    exists = true;
-            //}
+            var exists = false;
+
+            if (currentUserProfile != null)
+            {
+                exists = true;
+            }
 
             return View(new ProfileViewModel
             {
@@ -30,7 +31,7 @@ namespace Zinder.Controllers
                 DateOfBirth = currentUserProfile?.DateOfBirth,
                 Description = currentUserProfile?.Description,
                 // ImageName = currentProfile?.ImageName,
-                // Exists = exists
+                Exists = exists
             });
         }
 
@@ -40,17 +41,29 @@ namespace Zinder.Controllers
         public ActionResult CreateProfile(ProfileViewModel model)
         {
             var ctx = new ProfileDbContext();
-
             var currentUser = User.Identity.GetUserId();
+            var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUser);
 
-            ctx.Profiles.Add(new ProfileModel
+            // Adds the user if current user profile is not found
+            if (currentUserProfile == null)
             {
-                ID = currentUser,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                DateOfBirth = model.DateOfBirth.Value,
-                Description = model.Description
-            });
+                ctx.Profiles.Add(new ProfileModel
+                {
+                    ID = currentUser,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    DateOfBirth = model.DateOfBirth.Value,
+                    Description = model.Description
+                });
+            }
+            
+            // Edits the user if current user profile is found
+            else
+            {
+                currentUserProfile.FirstName = model.FirstName ?? currentUserProfile.FirstName;
+                currentUserProfile.LastName = model.LastName ?? currentUserProfile.LastName;
+                currentUserProfile.Description = model.Description ?? currentUserProfile.Description;
+            }
 
             ctx.SaveChanges();
 

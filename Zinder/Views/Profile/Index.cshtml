@@ -5,9 +5,35 @@
     ViewBag.Title = "Profile";
 }
 
-<h2>Profile</h2>
 
-<div>
-    <h2>Create your profile to get started!</h2>
-    @Html.Partial("CreateProfile")
-</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    if (!Model.Exists)
+    {
+        <div>
+            <h2>Create your profile to get started!</h2>
+            @Html.Partial("CreateProfile")
+        </div>
+    }
+    else
+    {
+        <div>
+
+            @Html.Partial("ViewProfile")
+
+            <hr />
+
+            @{ Html.RenderPartial("~/Views/Profile/EditProfile.cshtml", new Zinder.Models.ProfileViewModel()); }
+
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+            </p>
+        </div>
+    }
+}
+else
+{
+    <hr />
+    <h4>You have to be signed in to view your profile</h4>
+}
