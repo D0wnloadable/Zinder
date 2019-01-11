@@ -20,6 +20,8 @@ namespace Zinder.Models
 
         public bool Exists { get; set; }
 
+        public virtual ICollection<FriendModel> Friends { get; set; }
+
         //  public string ImageName { get; set; }
 
     }
@@ -30,5 +32,6 @@ namespace Zinder.Models
         public ProfileDbContext() : base("ProfilesDb") { }
 
         public DbSet<ProfileModel> Profiles { get; set; }
+        public DbSet<FriendModel> Friends { get; set; }
     }
 }
