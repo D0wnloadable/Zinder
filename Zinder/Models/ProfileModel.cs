@@ -9,15 +9,18 @@ namespace Zinder.Models
 {
     public class ProfileModel
     {
+        public ProfileModel()
+        {
+            Friends = new HashSet<FriendModel>();
+        }
+
         [Key]
         public string ID { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
-
         public string Description { get; set; }
-
         public bool Exists { get; set; }
 
         public virtual ICollection<FriendModel> Friends { get; set; }
@@ -29,7 +32,9 @@ namespace Zinder.Models
     public class ProfileDbContext : DbContext
     {
         // Constructor
-        public ProfileDbContext() : base("ProfilesDb") { }
+        public ProfileDbContext() : base("ProfilesDb")
+        {
+        }
 
         public DbSet<ProfileModel> Profiles { get; set; }
         public DbSet<FriendModel> Friends { get; set; }

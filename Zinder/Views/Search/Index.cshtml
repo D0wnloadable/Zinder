@@ -1,0 +1,14 @@
+﻿
+@model Zinder.Models.ProfileListViewModel
+
+<h2>Profiles</h2>
+
+<table>
+    @foreach (var profile in Model.Profiles)
+    {
+        <tr>
+            <td><a class="list-group-item" href="/Search/UserProfile/@profile.ID">@profile.FirstName  @profile.LastName</a></td>
+            <td>@profile.DateOfBirth</td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,17 @@
+﻿
+@model Zinder.Models.ProfileViewModel
+
+@{
+    ViewBag.Title = "UserProfile";
+}
+
+<h2>UserProfile</h2>
+
+<h3> @Model.FirstName @Model.LastName 's Profile</h3>
+<h4>Add as friend</h4>
+<h5> @Model.ID</h5>
+<input type="button" value="Send a friendrequest" onclick="location.href='@Url.Action("SendFriendRequest", "Friend", new { friendId = Model.ID } )'" />
+<p>
+    @HttpContext.Current.Request.Url.Query
+    @Model.Description
+</p>

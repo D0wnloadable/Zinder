@@ -1,0 +1,18 @@
+﻿
+@model IEnumerable<Zinder.Models.FriendViewModel>
+
+@{
+    ViewBag.Title = "FriendRequest";
+}
+<h2>Friend Requests!</h2>
+
+@foreach (var item in Model)
+{
+
+    <a class=" list-group-item" href="/Search/UserProfile/@item.ID">
+        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+    </a>
+    <input type="button" value="Accept" onclick="location.href='@Url.Action("AcceptFriendRequest", "Friend", new { id = item.RequesterId } )'" />
+    <input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveFriend", "Profile", new { requestId = item.ID } )'" />
+
+}
