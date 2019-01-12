@@ -5,15 +5,24 @@
     ViewBag.Title = "View";
 }
 
-<h2>Friend List</h2>
 
-@foreach (var item in Model)
+
+@if (User.Identity.IsAuthenticated)
 {
+    <h2>Friend List</h2>
 
+    foreach (var item in Model)
+    {
+        <a class=" list-group-item" href="/Search/UserProfile/@item.ID">
+            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+        </a>
+        //<input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveFriend", "Profile", new { requestId = item.RequestId } )'" />
 
-    <a class=" list-group-item" href="/Search/UserProfile/@item.ID">
-        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-    </a>
-    //<input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveFriend", "Profile", new { requestId = item.RequestId } )'" />
+    }
+}
+else
+{
+    <hr />
 
+    <h4>You have to sign in before you can access your friend list.</h4>
 }

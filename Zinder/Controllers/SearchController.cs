@@ -9,17 +9,23 @@ namespace Zinder.Controllers
 {
     public class SearchController : Controller
     {
-        // GET: Search
+        // Method to get and list all the profiles
         public ActionResult Index()
         {
-            var ctx = new ProfileDbContext();
+            var vm = new ProfileListViewModel();
 
-            var viewModel = new ProfileListViewModel
+            if (User.Identity.IsAuthenticated)
             {
-                Profiles = ctx.Profiles.ToList()
-            };
+                var ctx = new ProfileDbContext();
 
-            return View(viewModel);
+                // Gets all the profiles and puts it in the variable "vm"
+                vm = new ProfileListViewModel
+                {
+                    Profiles = ctx.Profiles.ToList()
+                };
+            }
+
+            return View(vm);
         }
 
 

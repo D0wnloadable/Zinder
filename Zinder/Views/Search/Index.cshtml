@@ -1,14 +1,26 @@
 ﻿
 @model Zinder.Models.ProfileListViewModel
 
-<h2>Profiles</h2>
 
-<table>
-    @foreach (var profile in Model.Profiles)
-    {
-        <tr>
-            <td><a class="list-group-item" href="/Search/UserProfile/@profile.ID">@profile.FirstName  @profile.LastName</a></td>
-            <td>@profile.DateOfBirth</td>
-        </tr>
-    }
-</table>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h2>Profiles</h2>
+
+    <table>
+        @foreach (var profile in Model.Profiles)
+        {
+            <tr>
+                <td><a class="list-group-item" href="/Search/UserProfile/@profile.ID">@profile.FirstName  @profile.LastName</a></td>
+
+                <td>@profile.DateOfBirth</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <hr />
+
+    <h4>You have to sign in before you can access the search page.</h4>
+}

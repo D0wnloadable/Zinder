@@ -36,21 +36,131 @@ namespace Zinder.Controllers
 
 
 
+        /*
+         * Method to show the user it's friend list
+         */
+        public ActionResult FriendList()
+        {
+            var friendList = new List<FriendViewModel>();
 
-        // GET: Friend
+            if (User.Identity.IsAuthenticated)
+            {
+                var ctx = new ProfileDbContext();
+                var currentUserId = User.Identity.GetUserId();
+                var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
+
+                // Gets a list of profiles in which the current user is friend with
+                var profileList = currentUserProfile.Friends.Where(f => f.IsFriend);
+
+                foreach (var friend in profileList)
+                {
+                    // Gets one of the friends full profile
+                    var friendProfile = ctx.Profiles.FirstOrDefault(p => p.ID == friend.RequesterId);
+
+                    var vm = new FriendViewModel
+                    {
+                        ID = friend.RecieverId,
+                        FirstName = friendProfile.FirstName,
+                        LastName = friendProfile.LastName,
+                        RequesterId = friend.ID
+                    };
+
+                    // Adds the friend view model to the list of friends
+                    friendList.Add(vm);
+
+                }
+            }
+
+            return View(friendList);
+        }
+
+        
+
+        /*
+         * Method to send a friend request to a user
+         */
         public ActionResult SendFriendRequest(string friendId)
         {
             var ctx = new ProfileDbContext();
-            var currentUser = User.Identity.GetUserId();
-            //var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUser);
+            var currentUserId = User.Identity.GetUserId();
 
+            // Gets the friends full profile
             var friendProfile = ctx.Profiles.FirstOrDefault(p => p.ID == friendId);
 
+            // Adds the friend model to the ICollection of friends
             friendProfile.Friends.Add(new FriendModel
             {
                 IsFriend = false,
-                RequesterId = currentUser,
+                RequesterId = currentUserId,
                 RecieverId = friendId
+            });
+
+            ctx.SaveChanges();
+
+            return RedirectToAction("FriendList");
+        }
+        
+        
+        
+        /*
+         * Method to show the user the page for friend requests
+         */
+        public ActionResult FriendRequestList()
+        {
+            var friendRequestList = new List<FriendViewModel>();
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var ctx = new ProfileDbContext();
+                var currentUser = User.Identity.GetUserId();
+                var currentProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUser);
+
+                // Gets a list of profiles in which the current user is NOT friend with
+                var profileList = currentProfile.Friends.Where(f => !f.IsFriend);
+
+                foreach (var friend in profileList)
+                {
+                    // Gets the friends full profile
+                    var friendsProfile = ctx.Profiles.FirstOrDefault(p => p.ID == friend.RequesterId);
+
+                    var vm = new FriendViewModel
+                    {
+                        ID = friend.RecieverId,
+                        FirstName = friendsProfile.FirstName,
+                        LastName = friendsProfile.LastName,
+                        RequesterId = friend.ID
+
+                    };
+                    friendRequestList.Add(vm);
+                }
+            }
+
+            return View(friendRequestList);
+        }
+
+
+
+        /*
+         * Method to accept a friend request
+         */
+        public ActionResult AcceptFriendRequest(int id)
+        {
+            var ctx = new ProfileDbContext();
+            var currentUserId = User.Identity.GetUserId();
+            var currentProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
+
+            // Gets the requester friend model and sets Isfriend
+            var friend = currentProfile.Friends.FirstOrDefault(f => f.ID == id);
+            friend.IsFriend = true;
+            
+            var requesterProfile = ctx.Profiles.FirstOrDefault(p => p.ID == friend.RequesterId);
+            
+            // Updates the database
+            requesterProfile.Friends.Add(new FriendModel
+            {
+                IsFriend = true,
+                RequesterId = friend.RequesterId,
+                RecieverId = currentUserId
             });
 
             ctx.SaveChanges();
@@ -60,87 +170,10 @@ namespace Zinder.Controllers
 
 
 
-
-        public ActionResult FriendRequestUser(string userId)
-        {
-            var ctx = new ProfileDbContext();
-            var profile = ctx.Profiles.FirstOrDefault(p => p.ID == userId);
-            return View(new ProfileViewModel
-            {
-                ID = profile?.ID,
-                FirstName = profile?.FirstName,
-                LastName = profile?.LastName,
-                DateOfBirth = profile?.DateOfBirth,
-                Description = profile?.Description
-            });
-        }
-        
-
-
-
         /*
-         * WORKS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         * Method to deny a friend request
          */
-        public ActionResult FriendList()
-        {
-            var ctx = new ProfileDbContext();
-            var currentUser = User.Identity.GetUserId();
-            var currentProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUser);
-
-            var listOfProfilesInFriendList = currentProfile.Friends.Where(f => f.IsFriend);
-            var listOfFriends = new List<FriendViewModel>();
-
-            foreach (var friend in listOfProfilesInFriendList)
-            {
-                var friendsProfile = ctx.Profiles.FirstOrDefault(p => p.ID == friend.RequesterId);
-                var viewModel = new FriendViewModel
-                {
-                    ID = friend.RecieverId,
-                    FirstName = friendsProfile.FirstName,
-                    LastName = friendsProfile.LastName,
-                    RequesterId = friend.ID
-                };
-                listOfFriends.Add(viewModel);
-
-            }
-
-            return View(listOfFriends);
-        }
-
-
-
-        /*
-         * WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORKS!!!!!!!!!
-         */
-        public ActionResult FriendRequestList()
-        {
-            var ctx = new ProfileDbContext();
-            var currentUser = User.Identity.GetUserId();
-            var currentProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUser);
-
-            var listOfProfilesInFriendList = currentProfile.Friends.Where(f => !f.IsFriend);
-            var listOfFriends = new List<FriendViewModel>();
-            foreach (var friend in listOfProfilesInFriendList)
-            {
-                var friendsProfile = ctx.Profiles.FirstOrDefault(p => p.ID == friend.RequesterId);
-                var friendModel = new FriendViewModel
-                {
-                    ID = friend.RecieverId,
-                    FirstName = friendsProfile.FirstName,
-                    LastName = friendsProfile.LastName,
-                    RequesterId = friend.ID
-
-                };
-                listOfFriends.Add(friendModel);
-
-            }
-
-            return View(listOfFriends);
-        }
-
-
-
-        public ActionResult AcceptFriendRequest(int id)
+        public ActionResult DenyFriendRequest(int id)
         {
             var ctx = new ProfileDbContext();
             var currentUser = User.Identity.GetUserId();
@@ -148,20 +181,14 @@ namespace Zinder.Controllers
 
             var request = currentProfile.Friends.FirstOrDefault(r => r.ID == id);
 
-            request.IsFriend = true;
-
-            var senderProfile = ctx.Profiles.FirstOrDefault(p => p.ID == request.RequesterId);
-
-
-            senderProfile.Friends.Add(new FriendModel
+            var otherProfile = ctx.Profiles.FirstOrDefault(p => p.ID == request.RequesterId);
+            var otherRequest = otherProfile.Friends.FirstOrDefault(p => p.RequesterId == currentUser);
+            if (otherRequest != null)
             {
-                IsFriend = true,
-                RequesterId = request.RequesterId,
-                RecieverId = currentUser
-            });
-
+                otherProfile.Friends.Remove(otherRequest);
+            }
+            currentProfile.Friends.Remove(request);
             ctx.SaveChanges();
-
             return RedirectToAction("FriendList");
         }
     }

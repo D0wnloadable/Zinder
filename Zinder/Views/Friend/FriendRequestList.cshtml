@@ -4,15 +4,33 @@
 @{
     ViewBag.Title = "FriendRequest";
 }
-<h2>Friend Requests!</h2>
 
-@foreach (var item in Model)
+
+
+@if (User.Identity.IsAuthenticated)
 {
+    <h2>Friend Requests!</h2>
 
-    <a class=" list-group-item" href="/Search/UserProfile/@item.ID">
-        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-    </a>
-    <input type="button" value="Accept" onclick="location.href='@Url.Action("AcceptFriendRequest", "Friend", new { id = item.RequesterId } )'" />
-    <input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveFriend", "Profile", new { requestId = item.ID } )'" />
+    foreach (var item in Model)
+    {
+        <a class=" list-group-item" href="/Search/UserProfile/@item.ID">
+            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+        </a>
 
+        <button type="button" class="btn btn-success"
+                onclick="location.href='@Url.Action("AcceptFriendRequest", "Friend", new { id = item.RequesterId })'">
+            Accept!
+        </button>
+
+        <button type="button" class="btn btn-danger"
+                onclick="location.href='@Url.Action("DenyFriendRequest", "Friend", new { id = item.RequesterId })'">
+            Deny..
+        </button>
+    }
+}
+else
+{
+    <hr />
+
+    <h4>You have to sign in before you can access your notifications.</h4>
 }
