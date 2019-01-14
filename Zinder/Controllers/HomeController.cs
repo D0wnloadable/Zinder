@@ -29,7 +29,9 @@ namespace Zinder.Controllers
         }
 
 
-
+        /*
+         * Method to view 3 profiles on the home page
+         */
         public ActionResult ViewProfiles()
         {
             var list = new ProfileListViewModel();

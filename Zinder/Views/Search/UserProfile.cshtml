@@ -7,9 +7,17 @@
 
 
 
+@using Microsoft.AspNet.Identity
+
 <hr />
 
-<h2> @Model.FirstName @Model.LastName</h2>
+<h2>@Model.FirstName @Model.LastName</h2>
+
+<br />
+
+<div class="container">
+    <img src="@Model.ImageUrl" alt="Avatar-Image" class="img-thumbnail" style="height:170px;width:auto;" />
+</div>
 
 <hr />
 
@@ -19,15 +27,12 @@
 
 <h4>@Model.Description</h4>
 
-<h5> @Model.ID</h5>
-
 <br />
 
-<button type="button" class="btn btn-info"
-        onclick="location.href='@Url.Action("SendFriendRequest", "Friend", new { friendId = Model.ID })'">
-    Send a friendrequest!
-</button>
-
-<p>
-    @HttpContext.Current.Request.Url.Query
-</p>
+@if (Model.ID != User.Identity.GetUserId())
+{
+    <button type="button" class="btn btn-info"
+            onclick="location.href='@Url.Action("SendFriendRequest", "Friend", new { friendId = Model.ID })'">
+        Send a friendrequest!
+    </button>
+}

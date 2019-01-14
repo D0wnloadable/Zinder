@@ -3,7 +3,7 @@
 
 
 
-@using (Html.BeginForm("CreateProfile", "Profile"))
+@using (Html.BeginForm("CreateProfile", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -44,9 +44,15 @@
             </div>
         </div>
 
+        <div>
+            @Html.TextBox("img", "", new { type = "file" })
+        </div>
+
+        <br />
+
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="col-md-10">
+                <input type="submit" value="Create Profile" class="btn btn-success" />
             </div>
         </div>
     </div>

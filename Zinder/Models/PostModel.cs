@@ -9,14 +9,14 @@ namespace Zinder.Models
     /*
      * ProfileModel id used for key reference in the Database
      */
-    public class FriendModel
+    public class PostModel
     {
         [Key]
         public int ID { get; set; }
 
-        public bool IsFriend { get; set; }
-        public string RequesterId { get; set; }
-        public string RecieverId { get; set; }
+        public string Author { get; set; }
+        public string Reciever { get; set; }
+        public string Message { get; set; }
 
         public virtual ProfileModel Profile { get; set; }
     }

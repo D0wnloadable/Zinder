@@ -18,7 +18,8 @@
             @foreach (var profile in Model.Profiles)
             {
                 <a href="/Search/UserProfile/@profile.ID"
-                   class="list-group-item">@profile.FirstName@profile.LastName</a>
+                   class="list-group-item"><img src="@profile.ImageUrl" alt="Avatar-Image" class="img-thumbnail" style="height:40px;width:auto;" />
+            - @profile.FirstName @profile.LastName</a>
             }
         </div>
     </div>

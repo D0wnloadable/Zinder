@@ -1,7 +1,7 @@
 ﻿
-@model Zinder.Models.ProfileViewModel
+@model Zinder.Models.ProfileEditViewModel
 
-@using (Html.BeginForm("CreateProfile", "Profile"))
+@using (Html.BeginForm("EditProfile", "Profile"))
 {
     @Html.AntiForgeryToken()
     
@@ -39,7 +39,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save Changes" class="btn btn-default" />
+                <input type="submit" value="Save Changes" class="btn btn-success" />
             </div>
         </div>
     </div>

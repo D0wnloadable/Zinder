@@ -9,9 +9,14 @@ namespace Zinder.Models
 {
     public class ProfileModel
     {
+        /*
+         * HashSet and ICollection is used for foreign key reference in the tables.
+         * ICollection is used to access method as "Add".
+         */
         public ProfileModel()
         {
-            Friends = new HashSet<FriendModel>();
+            this.Friends = new HashSet<FriendModel>();
+            this.Posts = new HashSet<PostModel>();
         }
 
         [Key]
@@ -25,22 +30,22 @@ namespace Zinder.Models
         
         public string Description { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public bool Exists { get; set; }
 
         public virtual ICollection<FriendModel> Friends { get; set; }
-
-        //  public string ImageName { get; set; }
-
+        public virtual ICollection<PostModel> Posts { get; set; }
     }
 
     public class ProfileDbContext : DbContext
     {
-        // Constructor
         public ProfileDbContext() : base("ProfilesDb")
         {
         }
 
         public DbSet<ProfileModel> Profiles { get; set; }
         public DbSet<FriendModel> Friends { get; set; }
+        public DbSet<PostModel> Posts { get; set; }
     }
 }

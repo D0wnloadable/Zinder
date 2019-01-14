@@ -11,13 +11,13 @@
 {
     <h2>Friend List</h2>
 
+    <hr />
+
     foreach (var item in Model)
     {
         <a class=" list-group-item" href="/Search/UserProfile/@item.ID">
             @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
         </a>
-        //<input type="button" value="Remove" onclick="location.href='@Url.Action("RemoveFriend", "Profile", new { requestId = item.RequestId } )'" />
-
     }
 }
 else

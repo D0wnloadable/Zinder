@@ -9,7 +9,9 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <h2>Friend Requests!</h2>
+    <h2>Friend Requests</h2>
+
+    <hr />
 
     foreach (var item in Model)
     {

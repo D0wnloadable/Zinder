@@ -9,28 +9,35 @@ namespace Zinder.Controllers
 {
     public class SearchController : Controller
     {
-        // Method to get and list all the profiles
-        public ActionResult Index()
+        /*
+         * Method to list and search through users
+         */
+        public ActionResult Index(string firstname, string lastname)
         {
-            var vm = new ProfileListViewModel();
+            List<ProfileModel> searchResult = new List<ProfileModel>();
 
             if (User.Identity.IsAuthenticated)
             {
                 var ctx = new ProfileDbContext();
 
-                // Gets all the profiles and puts it in the variable "vm"
-                vm = new ProfileListViewModel
+                // When the user loads the search page or leave search empty, only 5 users will be listed
+                searchResult = ctx.Profiles.Take(5).ToList();
+
+                if (!string.IsNullOrEmpty(firstname) || !string.IsNullOrEmpty(lastname))
                 {
-                    Profiles = ctx.Profiles.ToList()
-                };
+                    searchResult = ctx.Profiles.Where(p => p.FirstName.StartsWith(firstname)
+                        && p.LastName.StartsWith(lastname)).ToList();
+                }
             }
 
-            return View(vm);
+            return View(searchResult);
         }
 
 
 
-
+        /*
+         * Gets and views a full profile
+         */
         public ActionResult UserProfile(string id)
         {
             var ctx = new ProfileDbContext();
@@ -42,7 +49,8 @@ namespace Zinder.Controllers
                 FirstName = profile?.FirstName,
                 LastName = profile?.LastName,
                 DateOfBirth = profile?.DateOfBirth,
-                Description = profile?.Description
+                Description = profile?.Description,
+                ImageUrl = profile?.ImageUrl
             });
         }
     }
