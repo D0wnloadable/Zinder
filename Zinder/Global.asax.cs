@@ -17,7 +17,7 @@ namespace Zinder
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ProfileDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ZinderUserDbContext>());
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

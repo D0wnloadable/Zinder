@@ -38,7 +38,7 @@ namespace Zinder.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var ctx = new ProfileDbContext();
+                var ctx = new ZinderUserDbContext();
 
                 list = new ProfileListViewModel
                 {

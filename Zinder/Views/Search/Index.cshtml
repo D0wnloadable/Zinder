@@ -14,16 +14,20 @@
         <h2>Search for users</h2>
 
         <hr />
-
-        <div class="form-group">
-            @Html.Label("First Name:", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBox("firstname", null, new { @class = "form-control" })
+        
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("First Name:", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBox("firstname", null, new { @class = "form-control" })
+                </div>
             </div>
 
-            @Html.Label("Last Name:", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBox("lastname", null, new { @class = "form-control" })
+            <div class="form-group">
+                @Html.Label("Last Name:", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBox("lastname", null, new { @class = "form-control" })
+                </div>
             </div>
         </div>
 
@@ -31,16 +35,19 @@
 
         <hr />
     }
-        <table>
+    <div class="container">
+        <div class="list-group col-md-4">
             @foreach (var profile in Model)
             {
-                <tr>
-                    <td><a class="list-group-item"
-                           href="/Search/UserProfile/@profile.ID">@profile.FirstName  @profile.LastName</a></td>
-                </tr>
+                <a href="/Search/UserProfile/@profile.ID"
+                   class="list-group-item">
+                    <img src="@profile.ImageUrl" alt="Avatar-Image" class="img-thumbnail" style="height:40px;width:auto;" />
+                    - @profile.FirstName @profile.LastName
+                </a>
             }
-        </table>
-    }
+        </div>
+    </div>
+}
 else
 {
     <hr />

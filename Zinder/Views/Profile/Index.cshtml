@@ -13,13 +13,13 @@
     {
         <div>
             <h2>Create your profile to get started!</h2>
+
             @Html.Partial("CreateProfile")
         </div>
     }
     else
     {
         <div>
-
             @Html.Partial("ViewProfile")
 
             <hr />
@@ -31,5 +31,6 @@
 else
 {
     <hr />
+
     <h4>You have to sign in before you can access your profile</h4>
 }

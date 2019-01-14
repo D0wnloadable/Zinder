@@ -199,6 +199,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PostModel.cs" />
+    <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Models\ProfileEditViewModel.cs" />
     <Compile Include="Models\ProfileListViewModel.cs" />
     <Compile Include="Models\ProfileModel.cs" />

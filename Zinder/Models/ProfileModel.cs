@@ -38,9 +38,9 @@ namespace Zinder.Models
         public virtual ICollection<PostModel> Posts { get; set; }
     }
 
-    public class ProfileDbContext : DbContext
+    public class ZinderUserDbContext : DbContext
     {
-        public ProfileDbContext() : base("ProfilesDb")
+        public ZinderUserDbContext() : base("ZinderUserDb")
         {
         }
 

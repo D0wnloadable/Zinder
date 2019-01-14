@@ -17,7 +17,7 @@ namespace Zinder.Controllers
          */
         public ActionResult Index()
         {
-            var ctx = new ProfileDbContext();
+            var ctx = new ZinderUserDbContext();
             var currentUserId = User.Identity.GetUserId();
             var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
 
@@ -47,7 +47,7 @@ namespace Zinder.Controllers
         [HttpPost]
         public ActionResult CreateProfile(ProfileViewModel model, HttpPostedFileBase img)
         {
-            var ctx = new ProfileDbContext();
+            var ctx = new ZinderUserDbContext();
             var currentUserId = User.Identity.GetUserId();
             var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
 
@@ -99,7 +99,7 @@ namespace Zinder.Controllers
          */
         public ActionResult EditProfile(ProfileEditViewModel model)
         {
-            var ctx = new ProfileDbContext();
+            var ctx = new ZinderUserDbContext();
             var currentUserId = User.Identity.GetUserId();
             var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
 

@@ -19,7 +19,7 @@ namespace Zinder.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var ctx = new ProfileDbContext();
+                var ctx = new ZinderUserDbContext();
                 var currentUserId = User.Identity.GetUserId();
                 var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
 
@@ -54,7 +54,7 @@ namespace Zinder.Controllers
          */
         public ActionResult SendFriendRequest(string friendId)
         {
-            var ctx = new ProfileDbContext();
+            var ctx = new ZinderUserDbContext();
             var currentUserId = User.Identity.GetUserId();
 
             // Gets the friends full profile
@@ -104,7 +104,7 @@ namespace Zinder.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var ctx = new ProfileDbContext();
+                var ctx = new ZinderUserDbContext();
                 var currentUserId = User.Identity.GetUserId();
                 var currentProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
 
@@ -139,7 +139,7 @@ namespace Zinder.Controllers
          */
         public ActionResult AcceptFriendRequest(int id)
         {
-            var ctx = new ProfileDbContext();
+            var ctx = new ZinderUserDbContext();
             var currentUserId = User.Identity.GetUserId();
             var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
 
@@ -169,7 +169,7 @@ namespace Zinder.Controllers
          */
         public ActionResult DenyFriendRequest(int id)
         {
-            var ctx = new ProfileDbContext();
+            var ctx = new ZinderUserDbContext();
             var currentUserId = User.Identity.GetUserId();
             var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
 

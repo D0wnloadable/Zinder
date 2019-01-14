@@ -18,7 +18,7 @@ namespace Zinder.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var ctx = new ProfileDbContext();
+                var ctx = new ZinderUserDbContext();
 
                 // When the user loads the search page or leave search empty, only 5 users will be listed
                 searchResult = ctx.Profiles.Take(5).ToList();
@@ -40,7 +40,7 @@ namespace Zinder.Controllers
          */
         public ActionResult UserProfile(string id)
         {
-            var ctx = new ProfileDbContext();
+            var ctx = new ZinderUserDbContext();
             var profile = ctx.Profiles.FirstOrDefault(p => p.ID == id);
 
             return View(new ProfileViewModel

@@ -13,10 +13,10 @@
 
     <hr />
 
-    foreach (var item in Model)
+    foreach (var friend in Model)
     {
-        <a class=" list-group-item" href="/Search/UserProfile/@item.ID">
-            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+        <a class=" list-group-item" href="/Search/UserProfile/@friend.ID">
+            @Html.DisplayFor(modelItem => friend.FirstName) @Html.DisplayFor(modelItem => friend.LastName)
         </a>
     }
 }
