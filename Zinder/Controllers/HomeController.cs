@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Zinder.Models;
 
 namespace Zinder.Controllers
 {
@@ -25,6 +26,25 @@ namespace Zinder.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+
+
+        public ActionResult ViewProfiles()
+        {
+            var list = new ProfileListViewModel();
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var ctx = new ProfileDbContext();
+
+                list = new ProfileListViewModel
+                {
+                    Profiles = ctx.Profiles.Take(3).ToList()
+                };
+            }
+
+            return PartialView(list);
         }
     }
 }

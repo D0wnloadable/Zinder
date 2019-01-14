@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -47,12 +48,20 @@ namespace Zinder.Controllers
             // Adds the user if current user profile is not found
             if (currentUserProfile == null)
             {
+                var yearDefaultValue = model.DateOfBirth.Value;
+
+                if (yearDefaultValue.Year <= 1753)
+                {
+                    yearDefaultValue = DateTime.ParseExact("20/04/1969 00:00:00", "dd/MM/yyyy HH:mm:ss",
+                        CultureInfo.InvariantCulture);
+                }
+
                 ctx.Profiles.Add(new ProfileModel
                 {
                     ID = currentUser,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    DateOfBirth = model.DateOfBirth.Value,
+                    DateOfBirth = yearDefaultValue,
                     Description = model.Description
                 });
             }

@@ -2,7 +2,7 @@
 @model Zinder.Models.ProfileViewModel
 
 <div>
-    <h2>Profile</h2>
+    <h2>Your profile</h2>
     <hr />
 
     <dl class="dl-horizontal">
@@ -37,18 +37,7 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
-
-        <dt>
-            DO YOU EVEN EXIST!?!?
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Exists)
-        </dd>
-
     </dl>
-</div>
 
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    <br />
+</div>

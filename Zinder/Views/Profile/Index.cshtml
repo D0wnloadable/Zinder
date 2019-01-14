@@ -25,10 +25,6 @@
             <hr />
 
             @{ Html.RenderPartial("~/Views/Profile/EditProfile.cshtml", new Zinder.Models.ProfileViewModel()); }
-
-            <p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
-            </p>
         </div>
     }
 }

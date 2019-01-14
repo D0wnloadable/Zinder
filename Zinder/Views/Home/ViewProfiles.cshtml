@@ -1,0 +1,29 @@
+﻿
+@using Zinder.Models
+
+@model ProfileListViewModel
+
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <hr />
+
+    <h2>Explore our users!</h2>
+
+    <br />
+
+    <div class="container">
+        <div class="list-group col-md-4">
+            @foreach (var profile in Model.Profiles)
+            {
+                <a href="/Search/UserProfile/@profile.ID"
+                   class="list-group-item">@profile.FirstName@profile.LastName</a>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <h2>Sign in to explore our users!</h2>
+}

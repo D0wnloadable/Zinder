@@ -125,7 +125,7 @@ namespace Zinder.Controllers
 
                     var vm = new FriendViewModel
                     {
-                        ID = friend.RecieverId,
+                        ID = friend.RequesterId,
                         FirstName = friendsProfile.FirstName,
                         LastName = friendsProfile.LastName,
                         RequesterId = friend.ID

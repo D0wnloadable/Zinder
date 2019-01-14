@@ -5,13 +5,29 @@
     ViewBag.Title = "User Profile";
 }
 
-<h2>User Profile</h2>
 
-<h3> @Model.FirstName @Model.LastName 's Profile</h3>
-<h4>Add as friend</h4>
+
+<hr />
+
+<h2> @Model.FirstName @Model.LastName</h2>
+
+<hr />
+
+<h3>About @Model.FirstName</h3>
+
+<br />
+
+<h4>@Model.Description</h4>
+
 <h5> @Model.ID</h5>
-<input type="button" value="Send a friendrequest" onclick="location.href='@Url.Action("SendFriendRequest", "Friend", new { friendId = Model.ID } )'" />
+
+<br />
+
+<button type="button" class="btn btn-info"
+        onclick="location.href='@Url.Action("SendFriendRequest", "Friend", new { friendId = Model.ID })'">
+    Send a friendrequest!
+</button>
+
 <p>
     @HttpContext.Current.Request.Url.Query
-    @Model.Description
 </p>
