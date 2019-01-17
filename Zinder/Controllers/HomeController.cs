@@ -30,7 +30,7 @@ namespace Zinder.Controllers
 
 
         /*
-         * Method to view 3 profiles on the home page
+         * Method to view 5 profiles on the home page
          */
         public ActionResult ViewProfiles()
         {
@@ -42,7 +42,7 @@ namespace Zinder.Controllers
 
                 list = new ProfileListViewModel
                 {
-                    Profiles = ctx.Profiles.Take(3).ToList()
+                    Profiles = ctx.Profiles.Take(5).ToList()
                 };
             }
 
