@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,14 +20,23 @@ namespace Zinder.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var ctx = new ZinderUserDbContext();
+                var userId = User.Identity.GetUserId();
 
-                // When the user loads the search page or leave search empty, only 5 users will be listed
-                searchResult = ctx.Profiles.Take(5).ToList();
-
-                if (!string.IsNullOrEmpty(firstname) || !string.IsNullOrEmpty(lastname))
+                if (ctx.Profiles.FirstOrDefault(p => p.ID == userId) != null)
                 {
-                    searchResult = ctx.Profiles.Where(p => p.FirstName.StartsWith(firstname)
-                        && p.LastName.StartsWith(lastname)).ToList();
+                    // When the user loads the search page or leave search empty, only 5 users will be listed
+                    searchResult = ctx.Profiles.Take(5).ToList();
+
+                    if (!string.IsNullOrEmpty(firstname) || !string.IsNullOrEmpty(lastname))
+                    {
+                        searchResult = ctx.Profiles.Where(p => p.FirstName.StartsWith(firstname)
+                            && p.LastName.StartsWith(lastname)).ToList();
+                    }
+                }
+
+                else
+                {
+                    return RedirectToAction("Index", "Profile");
                 }
             }
 

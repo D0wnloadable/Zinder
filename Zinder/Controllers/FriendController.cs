@@ -19,31 +19,40 @@ namespace Zinder.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var ctx = new ZinderUserDbContext();
-                var currentUserId = User.Identity.GetUserId();
-                var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
-
-                // Gets a list of profiles in which the current user is friend with
-                var profileList = currentUserProfile.Friends.Where(f => f.IsFriend);
-
-                foreach (var friend in profileList)
+                try
                 {
-                    // Gets one of the friends full profile
-                    var friendProfile = ctx.Profiles.FirstOrDefault(p => p.ID == friend.RequesterId);
+                    var ctx = new ZinderUserDbContext();
+                    var currentUserId = User.Identity.GetUserId();
+                    var currentUserProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
 
-                    var vm = new FriendViewModel
+                    // Gets a list of profiles in which the current user is friend with
+                    var profileList = currentUserProfile.Friends.Where(f => f.IsFriend);
+
+                    foreach (var friend in profileList)
                     {
-                        ID = friend.RequesterId,
-                        FirstName = friendProfile.FirstName,
-                        LastName = friendProfile.LastName,
-                        RequesterId = friend.ID
-                    };
+                        // Gets one of the friends full profile
+                        var friendProfile = ctx.Profiles.FirstOrDefault(p => p.ID == friend.RequesterId);
 
-                    // Adds the friend view model to the list of friends
-                    friendList.Add(vm);
+                        var vm = new FriendViewModel
+                        {
+                            ID = friend.RequesterId,
+                            FirstName = friendProfile.FirstName,
+                            LastName = friendProfile.LastName,
+                            RequesterId = friend.ID
+                        };
+
+                        // Adds the friend view model to the list of friends
+                        friendList.Add(vm);
+                    }
+
+                    return View(friendList);
+                }
+                
+                catch
+                {
+                    return RedirectToAction("Index", "Profile");
                 }
             }
-
             return View(friendList);
         }
 
@@ -104,28 +113,36 @@ namespace Zinder.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var ctx = new ZinderUserDbContext();
-                var currentUserId = User.Identity.GetUserId();
-                var currentProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
-
-                // Gets a list of profiles in which the current user is NOT friend with
-                var profileList = currentProfile.Friends.Where(f => !f.IsFriend);
-
-                foreach (var friend in profileList)
+                try
                 {
-                    // Gets the friends full profile
-                    var friendsProfile = ctx.Profiles.FirstOrDefault(p => p.ID == friend.RequesterId);
+                    var ctx = new ZinderUserDbContext();
+                    var currentUserId = User.Identity.GetUserId();
+                    var currentProfile = ctx.Profiles.FirstOrDefault(p => p.ID == currentUserId);
 
-                    var vm = new FriendViewModel
+                    // Gets a list of profiles in which the current user is NOT friend with
+                    var profileList = currentProfile.Friends.Where(f => !f.IsFriend);
+
+                    foreach (var friend in profileList)
                     {
-                        ID = friend.RequesterId,
-                        FirstName = friendsProfile.FirstName,
-                        LastName = friendsProfile.LastName,
-                        RequesterId = friend.ID
+                        // Gets the friends full profile
+                        var friendsProfile = ctx.Profiles.FirstOrDefault(p => p.ID == friend.RequesterId);
 
-                    };
+                        var vm = new FriendViewModel
+                        {
+                            ID = friend.RequesterId,
+                            FirstName = friendsProfile.FirstName,
+                            LastName = friendsProfile.LastName,
+                            RequesterId = friend.ID
 
-                    friendRequestList.Add(vm);
+                        };
+
+                        friendRequestList.Add(vm);
+                    }
+                }
+
+                catch
+                {
+                    return RedirectToAction("Index", "Profile");
                 }
             }
 
